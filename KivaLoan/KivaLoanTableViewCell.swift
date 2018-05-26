@@ -9,22 +9,22 @@
 import UIKit
 
 class KivaLoanTableViewCell: UITableViewCell {
-    @IBOutlet weak var nameLabel:UILabel! {
+    @IBOutlet weak var nameLabel: UILabel! {
         didSet {
             nameLabel.numberOfLines = 0
         }
     }
-    @IBOutlet weak var countryLabel:UILabel! {
+    @IBOutlet weak var countryLabel: UILabel! {
         didSet {
             countryLabel.numberOfLines = 0
         }
     }
-    @IBOutlet weak var useLabel:UILabel! {
+    @IBOutlet weak var useLabel: UILabel! {
         didSet {
             useLabel.numberOfLines = 0
         }
     }
-    @IBOutlet weak var amountLabel:UILabel!
+    @IBOutlet weak var amountLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
