@@ -45,7 +45,7 @@ class KivaLoanTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! KivaLoanTableViewCell
 
         // Configure the cell...
-        cell.amountLabel.text = String(loans[indexPath.row].amount)
+        cell.amountLabel.text = "$ " + String(loans[indexPath.row].amount)
         cell.countryLabel.text = loans[indexPath.row].country
         cell.nameLabel.text = loans[indexPath.row].name
         cell.useLabel.text = loans[indexPath.row].use
@@ -77,25 +77,32 @@ extension KivaLoanTableViewController {
             }
          }
 
-
         task.resume() // “初始化 data task"
     }
     
     func parseJsonData(data: Data) -> [Loan] {
         var loans =  [Loan]()
-        do {
-            let jsonResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any]
-            let jsonLoans = jsonResult?["loans"] as! [AnyObject]
-            for jsonLoan in jsonLoans {
-                var loan = Loan()
-                loan.name = jsonLoan["name"] as! String
-                loan.amount = jsonLoan["loan_amount"] as! Int
-                let location = jsonLoan["location"] as! [String: AnyObject]
-                loan.country = location["country"] as! String
-                loan.use = jsonLoan["use"] as! String
 
-                loans.append(loan)
-            }
+        let decoder = JSONDecoder()
+
+        do {
+            let loansDataStore = try decoder.decode(LoanDataStore.self, from: data)
+            loans = loansDataStore.loans
+
+//            let jsonResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any]
+//            let jsonLoans = jsonResult?["loans"] as! [AnyObject]
+//            for jsonLoan in jsonLoans {
+//                var loan = Loan()
+//                loan.name = jsonLoan["name"] as! String
+//                loan.amount = jsonLoan["loan_amount"] as! Int
+//                let location = jsonLoan["location"] as! [String: AnyObject]
+//                loan.country = location["country"] as! String
+//                loan.use = jsonLoan["use"] as! String
+//
+//                loans.append(loan)
+//            }
+
+
         } catch {
             print(error)
         }
